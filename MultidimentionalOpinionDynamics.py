@@ -11,6 +11,8 @@ class Dynamics:
         self.t = t
         self.Dist = self.dist(StartingOpinionMatrix, StartingOpinionMatrix, GramMatrix)
         for i in range(t + 1):
+            if (self.Stabilized()):
+                break
             self.ComputeNext()
         
  
@@ -32,6 +34,11 @@ class Dynamics:
         self.Dist = self.dist(self.Opinions[-1], self.Opinions[-1], self.GramMatrix)
         return NextOpinionMatrix
     
+    
+    def Stabilized(self):
+        if (len(self.Opinions) < 2):
+            return False
+        return np.array_equal(self.Opinions[-1], self.Opinions[-2])
 
     def dist(self, A, B, GramMatrix):
         return np.sqrt(
