@@ -14,10 +14,6 @@ class Dynamics:
             if (self.Stabilized()):
                 break
             self.ComputeNext()
-        
- 
-    def AgentsCount(self):   
-        return np.shape(self.Opinions[0])[0]
     
 
     def ComputeNext(self):
@@ -33,12 +29,22 @@ class Dynamics:
         self.Opinions.append(NextOpinionMatrix)
         self.Dist = self.dist(self.Opinions[-1], self.Opinions[-1], self.GramMatrix)
         return NextOpinionMatrix
-    
-    
-    def Stabilized(self):
-        if (len(self.Opinions) < 2):
-            return False
-        return np.array_equal(self.Opinions[-1], self.Opinions[-2])
+
+
+    def GetAgentOpinionByTheme(self, agent : int, theme : int):
+        if (agent >= self.AgentsCount()):
+            return None
+        if (len(self.Opinions) < 0 or theme >= len(self.Opinions[0])):
+            return None
+        ids = []
+        opinion = []
+        for i in range(len(self.Opinions)):
+            ids.append(i)
+            opinion.append(self.Opinions[i][agent, theme])
+        
+        return opinion, ids
+            
+
 
     def dist(self, A, B, GramMatrix):
         return np.sqrt(
@@ -50,4 +56,14 @@ class Dynamics:
                 B.T)) +
             np.diag(np.matmul(
                 np.matmul(B, GramMatrix), 
-                B.T)))    
+                B.T)))  
+        
+        
+    def Stabilized(self):
+        if (len(self.Opinions) < 2):
+            return False
+        return np.array_equal(self.Opinions[-1], self.Opinions[-2]) 
+    
+    
+    def AgentsCount(self):   
+        return np.shape(self.Opinions[0])[0]
