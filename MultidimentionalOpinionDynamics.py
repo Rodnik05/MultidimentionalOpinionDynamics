@@ -19,7 +19,7 @@ class Dynamics:
     
 
     def ComputeNext(self):
-        NextOpinionMatrix = self.Opinions[-1]
+        NextOpinionMatrix = self.Opinions[-1].copy()
         for i in range(self.AgentsCount()):
             DifSum = 0
             for j in range(self.AgentsCount()):
@@ -29,6 +29,7 @@ class Dynamics:
             NextOpinionMatrix[i] += DifSum
             
         self.Opinions.append(NextOpinionMatrix)
+        self.Dist = self.dist(self.Opinions[-1], self.Opinions[-1], self.GramMatrix)
         return NextOpinionMatrix
     
 
