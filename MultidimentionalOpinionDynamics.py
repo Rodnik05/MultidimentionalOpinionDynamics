@@ -9,7 +9,9 @@ class Dynamics:
         self.Opinions.append(StartingOpinionMatrix)
         self.GramMatrix = GramMatrix
         self.t = t
-        self.Dist = self.dist(StartingOpinionMatrix, StartingOpinionMatrix, GramMatrix)
+        self.Dists = []
+        self.Dists.append(
+            self.dist(StartingOpinionMatrix, StartingOpinionMatrix, GramMatrix))
         for i in range(t + 1):
             if (self.Stabilized()):
                 break
@@ -21,13 +23,14 @@ class Dynamics:
         for i in range(self.AgentsCount()):
             DifSum = 0
             for j in range(self.AgentsCount()):
-                DifSum += (self.Opinions[-1][j] - self.Opinions[-1][i]) * 1/(1 + self.Dist[j, i])
+                DifSum += (self.Opinions[-1][j] - self.Opinions[-1][i]) * 1/(1 + self.Dists[-1][j, i])
                 
-            DifSum /= self.AgentsCount()
+            DifSum /= (self.AgentsCount() - 1)
             NextOpinionMatrix[i] += DifSum
             
         self.Opinions.append(NextOpinionMatrix)
-        self.Dist = self.dist(self.Opinions[-1], self.Opinions[-1], self.GramMatrix)
+        self.Dists.append(
+            self.dist(self.Opinions[-1], self.Opinions[-1], self.GramMatrix))
         return NextOpinionMatrix
 
 
@@ -50,12 +53,12 @@ class Dynamics:
         return np.sqrt(
             np.diag(np.matmul(
                 np.matmul(A, GramMatrix), 
-                A.T)).reshape(-1, 1) -
-            2 * (np.matmul(
-                np.matmul(A, GramMatrix), 
-                B.T)) +
+                A.T)).reshape(-1, 1) +
             np.diag(np.matmul(
                 np.matmul(B, GramMatrix), 
+                B.T)) - 
+            2 * (np.matmul(
+                np.matmul(A, GramMatrix), 
                 B.T)))  
         
         
@@ -67,3 +70,6 @@ class Dynamics:
     
     def AgentsCount(self):   
         return np.shape(self.Opinions[0])[0]
+    
+    def AgentOpinionsNumber(self):
+        return np.shape(self.Opinions[0])[1]
