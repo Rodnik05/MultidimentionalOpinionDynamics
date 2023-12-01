@@ -17,11 +17,17 @@ with open("Dists.txt", "w") as file:
         file.write(dist.__repr__())
         file.write("\n")
 
-       
-for i in range(a.AgentsCount()):
-    for j in range(a.AgentOpinionsNumber()):  
-        x, y = a.GetAgentOpinionByTheme(i, j)  
-        with open(f"OpinionsOfAgents/OpinionsAbout{j}OfAgent{i}.txt", "w") as file2:
-            for something in x:
-                file2.write(something.__repr__())
-                file2.write("\n")
+
+import pandas as pd
+
+
+
+for OpinionId in range(a.AgentOpinionsNumber()):
+    df = pd.DataFrame()
+    df['iteration'] = np.arange(len(a.Opinions))
+    for AgentId in range(a.AgentsCount()):
+        opinions = a.GetAgentOpinionByTheme(AgentId, OpinionId)
+        df[AgentId] = opinions
+
+    df.to_csv(f"Opinions/Opinions{OpinionId}.txt")
+

@@ -39,13 +39,11 @@ class Dynamics:
             return None
         if (len(self.Opinions) < 0 or theme >= len(self.Opinions[0])):
             return None
-        ids = []
         opinion = []
         for i in range(len(self.Opinions)):
-            ids.append(i)
             opinion.append(self.Opinions[i][agent, theme])
         
-        return opinion, ids
+        return opinion
             
 
 
