@@ -16,8 +16,8 @@ class Dynamics:
             if (self.Stabilized()):
                 break
             self.ComputeNext()
-        for i in range(1000):
-            self.ComputeNext()
+        # for i in range(1000):
+        #     self.ComputeNext()
     
 
     def ComputeNext(self):
@@ -39,12 +39,11 @@ class Dynamics:
     def GetAgentOpinionByTheme(self, agent : int, theme : int):
         if (agent >= self.AgentsCount()):
             return None
-        if (len(self.Opinions) < 0 or theme >= len(self.Opinions[0])):
+        if (len(self.Opinions) < 0 or theme >= (self.Opinions[0]).shape[1]):
             return None
         opinion = []
         for i in range(len(self.Opinions)):
             opinion.append(self.Opinions[i][agent, theme])
-        
         return opinion
             
 
