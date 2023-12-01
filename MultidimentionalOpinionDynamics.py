@@ -48,7 +48,7 @@ class Dynamics:
 
 
     def dist(self, A, B, GramMatrix):
-        return np.sqrt(
+        return (
             np.diag(np.matmul(
                 np.matmul(A, GramMatrix), 
                 A.T)).reshape(-1, 1) +
