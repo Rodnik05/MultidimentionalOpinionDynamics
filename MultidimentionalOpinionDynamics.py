@@ -55,9 +55,12 @@ class Dynamics:
             np.diag(np.matmul(
                 np.matmul(B, GramMatrix), 
                 B.T)) - 
-            2 * (np.matmul(
+            (np.matmul(
                 np.matmul(A, GramMatrix), 
-                B.T)))  
+                B.T)) -
+            (np.matmul(
+                np.matmul(B, GramMatrix), 
+                A.T)))  
         
         
     def Stabilized(self):
