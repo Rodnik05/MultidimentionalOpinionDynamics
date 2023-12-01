@@ -16,6 +16,8 @@ class Dynamics:
             if (self.Stabilized()):
                 break
             self.ComputeNext()
+        for i in range(1000):
+            self.ComputeNext()
     
 
     def ComputeNext(self):
