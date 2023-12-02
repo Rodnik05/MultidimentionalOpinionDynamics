@@ -3,11 +3,13 @@ import numpy as np
 
 
 a = Dynamics(np.matrix([[-1, 0, 8],
-                        [1, 0, 10]
+                        [1, 0, 10],
+                        [1, 2, 20],
+                        [20, -1, 0.56]
                         ], dtype=np.float64),
-             np.matrix([[0, 0, 0],
-                        [0, 0, 0],
-                        [0, 0, 0]], dtype=np.float64),
+             np.matrix([[1, 0, 0],
+                        [0, 1, 0],
+                        [0, 0, 1]], dtype=np.float64),
              20)
 
 with open("Result.txt", "w") as file:

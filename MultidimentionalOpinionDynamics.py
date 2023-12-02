@@ -57,8 +57,8 @@ class Dynamics:
                 np.matmul(B, GramMatrix), 
                 B.T)) - 
             (np.matmul(
-                np.matmul(A, GramMatrix.T), 
-                B.T)) -
+                np.matmul(B, GramMatrix.T), 
+                A.T)) -
             (np.matmul(
                 np.matmul(B, GramMatrix), 
                 A.T)))  
