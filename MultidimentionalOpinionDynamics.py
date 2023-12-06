@@ -16,11 +16,11 @@ class Dynamics:
             if (self.Stabilized()):
                 break
             self.ComputeNext()
-        for i in range(1000):
-            self.ComputeNext()
     
 
     def ComputeNext(self):
+        with open("computationCounter.txt", "w") as file:
+            file.write("done")
         NextOpinionMatrix = self.Opinions[-1].copy()
         for i in range(self.AgentsCount()):
             DifSum = 0
@@ -47,7 +47,6 @@ class Dynamics:
         return opinion
             
 
-
     def dist(self, A, B, GramMatrix):
         return (
             np.diag(np.matmul(
@@ -73,8 +72,10 @@ class Dynamics:
     def AgentsCount(self):   
         return np.shape(self.Opinions[0])[0]
     
+    
     def AgentOpinionsNumber(self):
         return np.shape(self.Opinions[0])[1]
+    
     
     def LogResults(self):
         import pandas as pd
