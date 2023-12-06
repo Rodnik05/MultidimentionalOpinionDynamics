@@ -4,7 +4,8 @@ class Dynamics:
     def __init__(self,
                  StartingOpinionMatrix : np.matrix,
                  GramMatrix : np.matrix,
-                 MaxIterations : int):
+                 MaxIterations : int,
+                 IterationsAfterStabilization : int = 0):
         self.Opinions = []
         self.Opinions.append(StartingOpinionMatrix)
         self.GramMatrix = GramMatrix
@@ -14,13 +15,13 @@ class Dynamics:
             self.dist(StartingOpinionMatrix, StartingOpinionMatrix, GramMatrix))
         for i in range(MaxIterations + 1):
             if (self.Stabilized()):
+                for _ in range(IterationsAfterStabilization):
+                    self.ComputeNext()
                 break
             self.ComputeNext()
     
 
     def ComputeNext(self):
-        with open("computationCounter.txt", "w") as file:
-            file.write("done")
         NextOpinionMatrix = self.Opinions[-1].copy()
         for i in range(self.AgentsCount()):
             DifSum = 0
