@@ -4,20 +4,20 @@ class Dynamics:
     def __init__(self,
                  StartingOpinionMatrix : np.matrix,
                  GramMatrix : np.matrix,
-                 t : int):
+                 MaxIterations : int):
         self.Opinions = []
         self.Opinions.append(StartingOpinionMatrix)
         self.GramMatrix = GramMatrix
-        self.t = t
+        self.MaxIterations = MaxIterations
         self.Dists = []
         self.Dists.append(
             self.dist(StartingOpinionMatrix, StartingOpinionMatrix, GramMatrix))
-        for i in range(t + 1):
+        for i in range(MaxIterations + 1):
             if (self.Stabilized()):
                 break
             self.ComputeNext()
-        # for i in range(1000):
-        #     self.ComputeNext()
+        for i in range(1000):
+            self.ComputeNext()
     
 
     def ComputeNext(self):
@@ -75,3 +75,14 @@ class Dynamics:
     
     def AgentOpinionsNumber(self):
         return np.shape(self.Opinions[0])[1]
+    
+    def LogResults(self):
+        import pandas as pd
+        for OpinionId in range(self.AgentOpinionsNumber()):
+            df = pd.DataFrame()
+            df['iteration'] = np.arange(len(self.Opinions))
+            for AgentId in range(self.AgentsCount()):
+                opinions = self.GetAgentOpinionByTheme(AgentId, OpinionId)
+                df[AgentId] = opinions
+
+            df.to_csv(f"Opinions/Opinions{OpinionId}.txt")
