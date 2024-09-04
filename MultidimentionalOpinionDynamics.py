@@ -8,7 +8,11 @@ class Dynamics:
                  IterationsAfterStabilization : int = 0):
         self.Opinions = []
         self.Opinions.append(StartingOpinionMatrix)
+        
+        # GramMatrix needs to be symmetric
+        assert np.allclose(GramMatrix, GramMatrix.T), "GramMatrix needs to be symmetric"
         self.GramMatrix = GramMatrix
+        
         self.MaxIterations = MaxIterations
         self.Dists = []
         self.Dists.append(
@@ -56,10 +60,7 @@ class Dynamics:
             np.diag(np.matmul(
                 np.matmul(B, GramMatrix), 
                 B.T)) - 
-            (np.matmul(
-                np.matmul(B, GramMatrix.T), 
-                A.T)) -
-            (np.matmul(
+            2 * (np.matmul(
                 np.matmul(B, GramMatrix), 
                 A.T)))  
         
