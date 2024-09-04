@@ -9,8 +9,8 @@ class Dynamics:
         self.Opinions = []
         self.Opinions.append(StartingOpinionMatrix)
         
-        # GramMatrix needs to be symmetric
-        assert np.allclose(GramMatrix, GramMatrix.T), "GramMatrix needs to be symmetric"
+        # GramMatrix must be symmetric
+        assert np.allclose(GramMatrix, GramMatrix.T), "GramMatrix must be symmetric"
         self.GramMatrix = GramMatrix
         
         self.MaxIterations = MaxIterations
