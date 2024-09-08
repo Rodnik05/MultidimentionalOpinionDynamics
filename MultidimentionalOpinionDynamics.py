@@ -16,7 +16,7 @@ class Dynamics:
         self.MaxIterations = MaxIterations
         self.Dists = []
         self.Dists.append(
-            self.dist(StartingOpinionMatrix, StartingOpinionMatrix, GramMatrix))
+            self.dist(StartingOpinionMatrix, StartingOpinionMatrix.T, GramMatrix))
         for i in range(MaxIterations + 1):
             if (self.Stabilized()):
                 for _ in range(IterationsAfterStabilization):
@@ -37,7 +37,7 @@ class Dynamics:
             
         self.Opinions.append(NextOpinionMatrix)
         self.Dists.append(
-            self.dist(self.Opinions[-1], self.Opinions[-1], self.GramMatrix))
+            self.dist(self.Opinions[-1], self.Opinions[-1].T, self.GramMatrix))
         return NextOpinionMatrix
 
 
@@ -56,13 +56,13 @@ class Dynamics:
         return (
             np.diag(np.matmul(
                 np.matmul(A, GramMatrix), 
-                A.T)).reshape(-1, 1) +
+                A.T)) +
             np.diag(np.matmul(
-                np.matmul(B, GramMatrix), 
-                B.T)) - 
+                np.matmul(B.T, GramMatrix), 
+                B)).reshape(-1, 1) - 
             2 * (np.matmul(
-                np.matmul(B, GramMatrix), 
-                A.T)))  
+                np.matmul(B.T, GramMatrix), 
+                A.T))) 
         
         
     def Stabilized(self):
